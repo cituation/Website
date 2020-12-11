@@ -33,3 +33,24 @@
 .gallery-close:hover {
 	cursor: pointer
 }
+.search-bar-container {
+	padding: 1.25rem 1.25rem .625rem
+}
+#SearchBar {
+	background-image: url(/image/css/search.svg);
+	background-position: 10px 12px;
+	background-repeat: no-repeat;
+	width: 100%;
+	font-size: 16px;
+	padding: 12px 20px 12px 40px;
+	border: 0
+}
+
+.fa-spinner {
+	-webkit-animation:spin 2s linear infinite;
+	-moz-animation:spin 2s linear infinite;
+	animation:spin 2s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
