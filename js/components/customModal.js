@@ -11,14 +11,18 @@ Vue.component('custom-modal', {
       type: String,
       default: undefined
     },
+    contentClasses: {
+      type: String,
+      default: ''
+    },
     closeOnClick: {
       type: Function,
       required: true
     }
   },
-  template: '<div id="cacheClear" class="customModal" v-show="modalOpened">\
+  template: '<div class="customModal" v-show="modalOpened">\
     <div class="customModalBackground" v-on:click="closeOnClick"></div>\
-    <div :id="contentId" class="customModalContent p-3">\
+    <div :id="contentId" :class="\'customModalContent p-3 \' + this.$props.contentClasses">\
       <slot></slot>\
     </div><span class="taille">\
   </div>'

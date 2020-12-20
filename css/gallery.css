@@ -49,6 +49,25 @@
 	bottom: 0;
 }
 
+#texture-viewer {
+	height: 100%;
+	width: 1020px !important;
+}
+
+#textures-layout, #textures-layout > div, #texture-viewer #preview-area > .height {
+	height: 100%;
+}
+
+#texture-viewer #texture-categories {
+	overflow-y: scroll;
+}
+
+#texture-viewer #preview-area > * {
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+}
+
 .search-bar-container {
 	padding: 1.25rem 1.25rem .625rem
 }

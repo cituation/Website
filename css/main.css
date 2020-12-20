@@ -278,6 +278,52 @@ a > h4, a > h3 {
 	animation-duration: 0.6s
 }
 
+.customModalBackground {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: rgba(0,0,0,0.5)
+}
+
+.customModal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 10px;
+	z-index: 3000;
+	text-align: center
+}
+
+.customModal > * {
+	display: inline-block;
+	vertical-align: middle
+}
+
+.customModal > span.taille {
+	height: 100%
+}
+
+.customModal .customModalContent {
+	background: #232323;
+	color: rgba(255, 255, 255, .9);
+	border-radius: var(--border-radius-2x);
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	width: 600px;
+	max-width: 100%;
+	max-height: 100%;
+	overflow: auto;
+	text-align: left;
+	position: relative
+}
+
+.customModal p {
+  color: rgba(255, 255, 255, .7)
+}
+
 @keyframes zoom {
 	from {transform:scale(0)}
 	to {transform:scale(1)}
