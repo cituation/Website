@@ -2,13 +2,13 @@
 /* eslint no-multi-str: 0 */
 
 Vue.component('edition-gallery', {
-  props: ['edition', 'base_url', 'category_files', 'category_images'],
+  props: ['edition', 'base_url', 'category_files'],
   template: '<div>\
       <h2 class="display-4 m-4 text-center" v-text="titleText"></h2>\
       <div :id="editionSelectorId" class="owl-carousel owl-theme gallery-selector card">\
-        <div v-for="(categoryName, index) in categoryNames" :key="index" class="item card clickable" v-on:click="selectCategory(index)">\
+        <div v-for="(categoryName, index) in categoryNames" :key="index" class="item card clickable" v-on:click.prevent="selectCategory(index)">\
           <div class="image-square-container">\
-            <img class="fill-image" :src="category_images[categoryName]|| \'\'" :alt="categoryName"/>\
+            <img class="fill-image" :src="\'/image/gallery/\' + edition + \'/\' + categoryFileNames[index] + \'.png\'" :alt="categoryName"/>\
             <img src="/image/gallery/bedrock/colormap.png" style="opacity: 0;" alt="square_bg">\
           </div>\
           <h5 class="card-title text-center" v-text="categoryName"></h5>\
@@ -18,13 +18,15 @@ Vue.component('edition-gallery', {
   data () {
     return {
       categoryChosen: 0,
-      categories: {},
-      categoriesLoaded: false // made to launch update on category images
+      categories: {}
     }
   },
   computed: {
+    categoryFileNames: function () {
+      return this.$props.category_files.map(el => this.toCategoryFileName(el))
+    },
     categoryNames: function () {
-      return this.$props.category_files.map(el => this.toCategoryName(el))
+      return this.categoryFileNames.map(el => el.replace(/_/g, ' '))
     },
     titleText: function () {
       const nameCapitalized = this.$props.edition.charAt(0).toUpperCase() + this.$props.edition.slice(1)
@@ -35,8 +37,8 @@ Vue.component('edition-gallery', {
     }
   },
   methods: {
-    toCategoryName: function (path) {
-      const c = path.split('/').pop().replace('.json', '').replace(/_/g, ' ')
+    toCategoryFileName: function (path) {
+      const c = path.split('/').pop().replace('.json', '')
 
       return c.charAt(0).toUpperCase() + c.slice(1)
     },
@@ -58,6 +60,7 @@ Vue.component('edition-gallery', {
       }
     },
     selectCategory: function (categoryIndex) {
+      console.log(categoryIndex)
       this.categoryChosen = categoryIndex
     },
     loadAll: function () {
