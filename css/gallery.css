@@ -14,9 +14,14 @@
 .card-sized{
 	height: 256px
 }
+
 .gallery-selector {
 	padding: 10px
 }
+.gallery-selector .owl-stage-outer {
+	padding-top: 35.5px;
+}
+
 .gallery-modal-img {
 	height: auto;
 	width: 100%;
@@ -33,6 +38,17 @@
 .gallery-close:hover {
 	cursor: pointer
 }
+.image-square-container {
+	position: relative;
+}
+.fill-image {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
 .search-bar-container {
 	padding: 1.25rem 1.25rem .625rem
 }

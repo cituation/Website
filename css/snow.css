@@ -11,6 +11,10 @@
     #1C1C1C
 }
 
+.gallery-selector .card {
+	background-image: none
+}
+
 .card-body {
 	margin-top: 15px
 }

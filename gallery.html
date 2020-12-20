@@ -5,121 +5,41 @@ title: Gallery
 
 <link rel="stylesheet" href="{{ site.baseurl }}/css/gallery.css">
 
-<div id="main">
-	<div id="result">
-		<li v-for="texture in textures">
-			{{ texture.img }}
-		</li>		
-	</div>
+<div id="main">	
+	{% assign editions = '' | split: ',' %}{% comment %} Create empty array {% endcomment %}
+	{% assign editionFiles = '' | split: ',' %} {% comment %} Create empty array {% endcomment %}
+	{% for file in site.static_files %}
+		{% if file.path contains 'data/' %}
+			{% assign relativePath = file.path | replace: 'data/', '' | split:'/' %}
+			
+			{% if relativePath.size > 2 and relativePath[1] != 'modpack' %}{% comment %} if in subfolder of data which is not modpack {% endcomment %}
+				{% unless editions contains relativePath[1] %}
+					{% assign editions = editions | push: relativePath[1] %}{% comment %} Add the edition directory name to the array {% endcomment %}
+				{% endunless %}
+				{% assign editionFiles = editionFiles | push: file.path %}{% comment %} Add the file to the file array {% endcomment %}
+			{% endif %}
+		{% endif %}
+	{% endfor %}
 
-	<div id="gallery">
-		<div id="java-selector" class="owl-carousel owl-theme gallery-selector card">
-			{%- for file in site.static_files -%}
-				{%- if file.path contains 'data/java/' -%}
-					{%- assign name = file.basename | replace: "_", " " | capitalize -%}
-						<div class="item card clickable" v-on:click="loadTextures('{{ file }}','java')">
-							<img src="{{ site.baseurl }}/image/gallery/java/{{ file.basename }}.png" alt="{{ name }}">
-							<h5 class="card-title text-center">{{ name }}</h5>
-						</div>
-					{%- endif -%}
-				{%- endfor -%}
-			</div>
-		</div>
-	</div>
+	{% assign editions = 'java,bedrock,dungeons' | split: ',' %}
+
+	{% assign maxIndex = editions.size | minus: 1 %}
+	{% for i in (0..maxIndex) %}{% comment %} loop through editions {% endcomment %}
+		{% assign currentEdition = editions[i] %}{% comment %} Get current edition name {% endcomment %}
+		{% assign filesArray = '' | split: '' %}
+		{% for file in editionFiles %} {% comment %} Get current edition files associated {% endcomment %}
+			{% assign pathSplit = file | split: '/' %}
+			{% assign pathEdition = pathSplit[2] %}
+			{% if currentEdition == pathEdition %}
+				{% assign filesArray = filesArray | push: file %}
+			{% endif %}
+		{% endfor %}
+
+		<edition-gallery edition="{{ currentEdition }}" :category_files="['{{ filesArray | join: "','" }}']" :base_url="git_base_urls['{{ currentEdition }}']" category_images="{}"></edition-gallery>
+	{% endfor %}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="{{ site.baseurl }}/js/ajax.js"></script>
+<script src="{{ site.baseurl }}/js/components/editionGallery.js"></script>
 <script src="{{ site.baseurl }}/js/Gallery.js"></script>
-
-<script>
-	$(document).ready(function(){
-		$('#java-selector').owlCarousel({
-			loop: false,
-			margin: 30,
-			nav: false,
-			responsiveClass: true,
-			autoHeight: false,
-			responsive: {
-				0: {
-					items: 1
-				},
-				400: {
-					items: 2
-				},
-				600: {
-					items: 3
-				},
-				1000: {
-					items: 6
-				},
-			},
-			onInitialized: addDotButtonLabel
-		});
-		$('#bedrock-selector').owlCarousel({
-			loop: false,
-			margin: 30,
-			nav: false,
-			responsiveClass: true,
-			autoHeight: false,
-			responsive: {
-				0: {
-					items: 1
-				},
-				400: {
-					items: 2
-				},
-				600: {
-					items: 3
-				},
-				1000: {
-					items: 6
-				},
-			},
-			onInitialized: addDotButtonLabel
-		});
-		$('#education-selector').owlCarousel({
-			loop: false,
-			margin: 30,
-			nav: false,
-			responsiveClass: true,
-			autoHeight: false,
-			responsive: {
-				0: {
-					items: 1
-				},
-				400: {
-					items: 2
-				},
-				600: {
-					items: 3
-				},
-				1000: {
-					items: 6
-				},
-			},
-			onInitialized: addDotButtonLabel
-		});
-		$('#dungeons-selector').owlCarousel({
-			loop: false,
-			margin: 30,
-			nav: false,
-			responsiveClass: true,
-			autoHeight: false,
-			responsive: {
-				0: {
-					items: 1
-				},
-				400: {
-					items: 2
-				},
-				600: {
-					items: 3
-				},
-				1000: {
-					items: 6
-				},
-			},
-			onInitialized: addDotButtonLabel
-		});
-	});
-</script>
